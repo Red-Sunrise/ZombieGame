@@ -1,3 +1,10 @@
+go.property("min_hp", 50)
+go.property("max_hp", 150)
+go.property("min_damage", 10)
+go.property("max_damage", 20)
+
+
+
 function init(self)
 	self.timer = math.random(3, 7)
 end
@@ -6,10 +13,10 @@ function update(self, dt)
 	self.timer = self.timer - dt
 	if self.timer <= 0 then
 		self.timer = math.random(3, 7)
-
+		math.randomseed(os.time())
 		local y = math.random(-150, 150)
-		local hp = math.random(50, 100)
-		local damage = math.random(10, 20)
+		local hp = math.random(self.min_hp, self.max_hp)
+		local damage = math.random(self.min_damage, self.max_damage)
 
 		local zombie = factory.create("#zombie_factory", vmath.vector3(720, y, 0), nil, {hp = hp, damage = damage})
 

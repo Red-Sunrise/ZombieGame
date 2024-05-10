@@ -1,6 +1,7 @@
-go.property("hp", 100)
-go.property("damage", 100)
 go.property("attack_speed", 1)
+go.property("hp", 1)
+go.property("damage", 1)
+
 
 local state = require "scripts.state"
 
@@ -8,7 +9,9 @@ function init(self)
 	self.is_alive = true
 	self.attacking = false
 	self.attack_timer = 0
+	self.maxHP = self.hp
 	msg.post(".", "start_moving",{ direction= vmath.vector3(-1,0,0) })
+	label.set_text("#current_hp_label", self.hp)
 end
 
 function update(self, dt)
@@ -26,18 +29,23 @@ function on_message(self, message_id, message, sender)
 		if message.group == hash("bullet") then
 			local bullet_damage = state.bullet_damage
 			self.hp = self.hp - bullet_damage
-			print(self.hp)
+			label.set_text("#current_hp_label", self.hp)
 			if self.hp <= 0 and self.is_alive then
 				self.is_alive = false
+				label.set_text("#current_hp_label", "")
 				msg.post(".", "stop_moving")
-				timer.delay(0.1, false, function() msg.post(".", "start_death_animation") end) -- задержка, иначе анимация смерти не проигрывается
+				timer.delay(0.1, false, function() msg.post(".", "start_death_animation") end)
 				msg.post("#zombie_collision", "disable")
 				timer.delay(1, false, function() go.delete() end)
+				state.score = state.score + self.maxHP * self.damage
+				msg.post("gui#game_hud", "set_score")
 			end
 			go.delete(message.other_id)
 		end
 		if message.group == hash("player") then
 			self.attacking = true
+			msg.post(".", "stop_moving")
+			msg.post(".", "start_attack_animation")
 		end
 	end
 end

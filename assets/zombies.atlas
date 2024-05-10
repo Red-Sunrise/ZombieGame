@@ -20,7 +20,7 @@ animations {
     image: "/assets/zombies/one/attack/zombie_one_attack_5.png"
     sprite_trim_mode: SPRITE_TRIM_MODE_OFF
   }
-  playback: PLAYBACK_ONCE_FORWARD
+  playback: PLAYBACK_LOOP_FORWARD
   fps: 8
   flip_horizontal: 1
   flip_vertical: 0
