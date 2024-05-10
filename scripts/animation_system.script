@@ -1,0 +1,18 @@
+go.property("idle_animation", hash(""))
+go.property("walk_animation", hash(""))
+go.property("attack_animation", hash(""))
+go.property("die_animation", hash(""))
+
+
+function init(self)
+	
+end
+
+
+function update(self, dt)
+	
+end
+
+function on_message(self, message_id, message, sender)
+	
+end

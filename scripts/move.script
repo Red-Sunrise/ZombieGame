@@ -1,0 +1,35 @@
+go.property("velocity", 100)
+go.property("idle_animation", hash(""))
+go.property("walk_animation", hash(""))
+
+function init(self)
+	self.moving = false
+	self.direction = 0
+end
+
+function update(self, dt)
+	if self.moving then
+		local position = go.get_position()
+		position = position + self.direction * self.velocity * dt
+		go.set_position(position)
+		
+		if self.current_animation ~= "walk" then
+			msg.post("#sprite", "play_animation", { id = self.walk_animation })
+			self.current_animation = "walk"
+		end
+	else
+		if self.current_animation ~= "idle" then
+			msg.post("#sprite", "play_animation", { id = self.idle_animation })
+			self.current_animation = "idle"
+		end
+	end
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("start_moving") then
+		self.moving = true
+		self.direction = message.direction
+	elseif message_id == hash("stop_moving") then
+		self.moving = false
+	end
+end

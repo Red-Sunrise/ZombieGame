@@ -1,0 +1,18 @@
+function init(self)
+	self.timer = math.random(3, 7)
+end
+
+function update(self, dt)
+	self.timer = self.timer - dt
+	if self.timer <= 0 then
+		self.timer = math.random(3, 7)
+
+		local y = math.random(-150, 150)
+		local hp = math.random(50, 100)
+		local damage = math.random(10, 20)
+
+		local zombie = factory.create("#zombie_factory", vmath.vector3(720, y, 0), nil, {hp = hp, damage = damage})
+
+		msg.post(zombie, "start_moving", { direction = vmath.vector3(-1, 0, 0) })
+	end
+end

@@ -1,0 +1,53 @@
+go.property("hp", 100)
+
+local camera = require "orthographic.camera"
+local CAMERA_ID = hash("/camera")
+local state = require "scripts.state"
+
+function init(self)
+	msg.post(".", "acquire_input_focus")
+	self.reloading = false
+	print(msg.url())
+end
+
+function on_input(self, action_id, action)
+	local direction = vmath.vector3(0,0,0)
+	if action_id == hash("touch") then
+		if action.pressed and not self.reloading then
+			local current_position = go.get_position()
+			local screen_mouse_position = vmath.vector3(0, action.y, 1)
+			local world_mouse_position = camera.screen_to_world(CAMERA_ID, screen_mouse_position)
+			if world_mouse_position.y >= current_position.y then
+				direction.y = 1
+			else
+				direction.y = -1
+			end
+			state.player_is_moving = true
+			msg.post(".", "start_moving", { direction=direction})
+		elseif action.released then
+			state.player_is_moving = false
+			msg.post(".", "stop_moving")
+		end
+	end
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("start_shooting") then
+		msg.post("#sprite", "play_animation", {id = hash("soldier_shot")})
+	elseif message_id == hash("start_reloading") then
+		self.reloading = true
+		msg.post("#sprite", "play_animation", {id = hash("soldier_reload")})
+	elseif message_id == hash("stop_reloading") then
+		self.reloading = false
+		if not self.reloading then
+			msg.post("#sprite", "play_animation", {id = hash("soldier_idle")})
+		end
+	end
+	if message_id == hash("damage") then
+		self.hp = self.hp - message.amount
+		print(alooo)
+		if self.hp <= 0 then
+			print("Погыб")
+		end
+	end
+end
