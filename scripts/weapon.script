@@ -7,6 +7,7 @@ local state = require "scripts.state"
 
 function init(self)
 	self.ammo = self.max_ammo
+	msg.post("gui#game_hud", "update_ammo", {current_ammo = self.ammo, max_ammo = self.max_ammo})
 	self.reloading = false
 	self.fire_timer = 0
 	state.bullet_damage = self.damage
@@ -19,11 +20,12 @@ function update(self, dt)
 		if self.ammo > 0 and not state.player_is_moving then
 			-- стреляем, если есть патроны и не двигаемся
 			self.ammo = self.ammo - 1
+			
 			local bullet_position = go.get_position() + vmath.vector3(20, 18, 0)
 			local bullet = factory.create("#bullet_factory", bullet_position,nil,{ bullet_damage = self.damage })
-			
+			msg.post("gui#game_hud", "update_ammo", {current_ammo = self.ammo, max_ammo = self.max_ammo})
 			msg.post(bullet, "start_moving", { direction = vmath.vector3(1, 0, 0) })
-			msg.post(".", "start_shooting")
+			msg.post(".", "start_attack_animation")
 		elseif self.ammo == 0 and not self.reloading then
 			-- начинаем перезарядку, если патронов нет
 			self.reloading = true

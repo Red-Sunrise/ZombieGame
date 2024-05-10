@@ -1,13 +1,14 @@
-go.property("hp", 100)
+go.property("max_hp", 100)
 
 local camera = require "orthographic.camera"
 local CAMERA_ID = hash("/camera")
 local state = require "scripts.state"
 
 function init(self)
+	self.hp = self.max_hp
 	msg.post(".", "acquire_input_focus")
+	msg.post("gui#game_hud", "update_hp", {current_hp = self.hp, max_hp = self.max_hp})
 	self.reloading = false
-	print(msg.url())
 end
 
 function on_input(self, action_id, action)
@@ -27,6 +28,7 @@ function on_input(self, action_id, action)
 		elseif action.released then
 			state.player_is_moving = false
 			msg.post(".", "stop_moving")
+			msg.post(".", "stop_move_animation")
 		end
 	end
 end
@@ -38,14 +40,14 @@ function on_message(self, message_id, message, sender)
 	elseif message_id == hash("stop_reloading") then
 		self.reloading = false
 		if not self.reloading then
-			msg.post(".", "start_idle_animation")
+			msg.post(".", "stop_move_animation")
 		end
 	end
 	if message_id == hash("damage") then
 		self.hp = self.hp - message.amount
-		print(alooo)
+		msg.post("gui#game_hud", "update_hp", {current_hp = self.hp, max_hp = self.max_hp})
 		if self.hp <= 0 then
-			print("Погыб")
+			msg.post("gui#game_hud", "game_over")
 		end
 	end
 end
