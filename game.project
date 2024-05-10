@@ -26,5 +26,5 @@ max_tile_count = 9198
 max_collision_object_count = 500
 
 [sprite]
-max_count = 500
+max_count = 1024
 

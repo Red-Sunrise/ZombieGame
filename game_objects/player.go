@@ -137,6 +137,7 @@ embedded_components {
   "group: \"player\"\n"
   "mask: \"wall\"\n"
   "mask: \"zombie\"\n"
+  "mask: \"buff\"\n"
   "embedded_collision_shape {\n"
   "  shapes {\n"
   "    shape_type: TYPE_BOX\n"

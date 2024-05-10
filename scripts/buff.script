@@ -1,0 +1,22 @@
+go.property("type", hash(""))
+go.property("value", 0)
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("set_type") then
+		self.type = message.type
+		if self.type == "max_ammo" then
+			go.set("#sprite", "scale", vmath.vector3(2, 2, 1))
+		elseif self.type == "heal" or self.type == "damage" then
+			go.set(".", "rotation", vmath.quat_rotation_z(math.rad(45)))
+		end
+	elseif message_id == hash("set_value") then
+		self.value = message.value
+	end
+
+	if message_id == hash("trigger_response") then
+		if message.group == hash("player") then
+			msg.post(message.other_id, "apply_buff", { type = self.type, value = self.value })
+			go.delete()
+		end
+	end 
+end

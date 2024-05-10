@@ -43,11 +43,32 @@ function on_message(self, message_id, message, sender)
 			msg.post(".", "stop_move_animation")
 		end
 	end
+	
 	if message_id == hash("damage") then
 		self.hp = self.hp - message.amount
 		msg.post("gui#game_hud", "update_hp", {current_hp = self.hp, max_hp = self.max_hp})
 		if self.hp <= 0 then
 			msg.post("gui#game_hud", "game_over")
+		end
+	end
+
+	if message_id == hash("apply_buff") then
+		if message.type == "damage" then
+			msg.post(".", "damage_up", { value = message.value })
+		elseif message.type == "max_ammo" then
+			msg.post(".", "max_ammo_up", { value = message.value })
+		elseif message.type == "heal" then
+			local heal_value = math.floor(self.max_hp * message.value / 100)
+			if self.hp + heal_value > self.max_hp then
+				self.hp = self.max_hp
+			else
+				self.hp = self.hp + heal_value
+			end
+			msg.post("gui#game_hud", "update_hp", {current_hp = self.hp, max_hp = self.max_hp})
+		elseif message.type == "armor" then
+			self.max_hp = self.max_hp + math.floor(self.max_hp * message.value / 100)
+			self.hp = self.hp + math.floor(self.hp * message.value / 100)
+			msg.post("gui#game_hud", "update_hp", {current_hp = self.hp, max_hp = self.max_hp})
 		end
 	end
 end

@@ -45,6 +45,14 @@ function on_message(self, message_id, message, sender)
 			go.delete(message.other_id)
 		end
 	end
+
+	if message_id == hash("damage_up") then
+		self.damage = self.damage + math.floor(self.damage * message.value / 100)
+		state.bullet_damage = self.damage
+	elseif message_id == hash("max_ammo_up") then
+		self.max_ammo = self.max_ammo + math.floor(self.max_ammo * message.value / 100)
+		msg.post("gui#game_hud", "update_ammo", {current_ammo = self.ammo, max_ammo = self.max_ammo})
+	end
 end
 
 -- Если нажать движение в момент, когда количество патрон 1, то перезарядка будет происходить во время движения
