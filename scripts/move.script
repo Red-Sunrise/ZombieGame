@@ -17,9 +17,9 @@ function on_message(self, message_id, message, sender)
 	if message_id == hash("start_moving") then
 		self.moving = true
 		self.direction = message.direction
-		msg.post(".", "start_move_animation")
+		msg.post(".", "stop_attack_animation")
+		timer.delay(0.1, false, function() msg.post(".", "start_move_animation") end)
 	elseif message_id == hash("stop_moving") then
 		self.moving = false
-		msg.post(".", "stop_move_animation")
 	end
 end
