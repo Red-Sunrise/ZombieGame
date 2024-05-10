@@ -12,16 +12,6 @@ components {
     z: 0.0
     w: 1.0
   }
-  properties {
-    id: "idle_animation"
-    value: "soldier_idle"
-    type: PROPERTY_TYPE_HASH
-  }
-  properties {
-    id: "walk_animation"
-    value: "soldier_walk"
-    type: PROPERTY_TYPE_HASH
-  }
 }
 components {
   id: "player"
@@ -76,6 +66,41 @@ components {
     y: 0.0
     z: 0.0
     w: 1.0
+  }
+}
+components {
+  id: "animation_system"
+  component: "/scripts/animation_system.script"
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  properties {
+    id: "idle_animation"
+    value: "soldier_idle"
+    type: PROPERTY_TYPE_HASH
+  }
+  properties {
+    id: "walk_animation"
+    value: "soldier_walk"
+    type: PROPERTY_TYPE_HASH
+  }
+  properties {
+    id: "attack_animation"
+    value: "soldier_shot"
+    type: PROPERTY_TYPE_HASH
+  }
+  properties {
+    id: "reload_animation"
+    value: "soldier_reload"
+    type: PROPERTY_TYPE_HASH
   }
 }
 embedded_components {

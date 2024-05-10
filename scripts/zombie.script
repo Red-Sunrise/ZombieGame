@@ -30,7 +30,7 @@ function on_message(self, message_id, message, sender)
 			if self.hp <= 0 and self.is_alive then
 				self.is_alive = false
 				msg.post(".", "stop_moving")
-				msg.post("#sprite", "play_animation", { id = hash("zombie_die") })
+				timer.delay(0.1, false, function() msg.post(".", "start_death_animation") end) -- задержка, иначе анимация смерти не проигрывается
 				msg.post("#zombie_collision", "disable")
 				timer.delay(1, false, function() go.delete() end)
 			end

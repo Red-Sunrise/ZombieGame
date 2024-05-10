@@ -17,16 +17,6 @@ components {
     value: "100.0"
     type: PROPERTY_TYPE_NUMBER
   }
-  properties {
-    id: "idle_animation"
-    value: "zombie_idle"
-    type: PROPERTY_TYPE_HASH
-  }
-  properties {
-    id: "walk_animation"
-    value: "zombie_walk"
-    type: PROPERTY_TYPE_HASH
-  }
 }
 components {
   id: "zombie"
@@ -46,6 +36,36 @@ components {
     id: "hp"
     value: "300.0"
     type: PROPERTY_TYPE_NUMBER
+  }
+}
+components {
+  id: "animation_system"
+  component: "/scripts/animation_system.script"
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  properties {
+    id: "idle_animation"
+    value: "zombie_idle"
+    type: PROPERTY_TYPE_HASH
+  }
+  properties {
+    id: "walk_animation"
+    value: "zombie_walk"
+    type: PROPERTY_TYPE_HASH
+  }
+  properties {
+    id: "death_animation"
+    value: "zombie_die"
+    type: PROPERTY_TYPE_HASH
   }
 }
 embedded_components {

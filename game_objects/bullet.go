@@ -17,11 +17,6 @@ components {
     value: "150.0"
     type: PROPERTY_TYPE_NUMBER
   }
-  properties {
-    id: "walk_animation"
-    value: "bullet"
-    type: PROPERTY_TYPE_HASH
-  }
 }
 embedded_components {
   id: "sprite"

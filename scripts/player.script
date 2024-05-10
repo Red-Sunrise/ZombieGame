@@ -32,15 +32,13 @@ function on_input(self, action_id, action)
 end
 
 function on_message(self, message_id, message, sender)
-	if message_id == hash("start_shooting") then
-		msg.post("#sprite", "play_animation", {id = hash("soldier_shot")})
-	elseif message_id == hash("start_reloading") then
+	if message_id == hash("start_reloading") then
 		self.reloading = true
-		msg.post("#sprite", "play_animation", {id = hash("soldier_reload")})
+		msg.post(".", "start_reload_animation")
 	elseif message_id == hash("stop_reloading") then
 		self.reloading = false
 		if not self.reloading then
-			msg.post("#sprite", "play_animation", {id = hash("soldier_idle")})
+			msg.post(".", "start_idle_animation")
 		end
 	end
 	if message_id == hash("damage") then

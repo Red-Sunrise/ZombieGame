@@ -19,7 +19,6 @@ function update(self, dt)
 		if self.ammo > 0 and not state.player_is_moving then
 			-- стреляем, если есть патроны и не двигаемся
 			self.ammo = self.ammo - 1
-			--print(self.ammo)
 			local bullet_position = go.get_position() + vmath.vector3(20, 18, 0)
 			local bullet = factory.create("#bullet_factory", bullet_position,nil,{ bullet_damage = self.damage })
 			

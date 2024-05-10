@@ -1,18 +1,43 @@
 go.property("idle_animation", hash(""))
 go.property("walk_animation", hash(""))
 go.property("attack_animation", hash(""))
-go.property("die_animation", hash(""))
+go.property("reload_animation", hash(""))
+go.property("death_animation", hash(""))
 
 
 function init(self)
-	
-end
-
-
-function update(self, dt)
-	
+	self.current_animation = "idle"
+	msg.post("#sprite", "play_animation", { id = self.idle_animation })
 end
 
 function on_message(self, message_id, message, sender)
+	if message_id == hash("start_move_animation") then
+		if self.current_animation ~= "walk" then
+			msg.post("#sprite", "play_animation", { id = self.walk_animation })
+			self.current_animation = "walk"
+		end
+	elseif message_id == hash("stop_move_animation") then
+		if self.current_animation ~= "idle" then
+			msg.post("#sprite", "play_animation", { id = self.idle_animation })
+			self.current_animation = "idle"
+		end
+	end
+
+	if message_id == hash("start_death_animation") then
+		msg.post("#sprite", "play_animation", {id = self.death_animation})
+	end
+	
+	if message_id == hash("start_shooting") then
+		msg.post("#sprite", "play_animation", {id = self.attack_animation})
+	end
+
+	if message_id == hash("start_reload_animation") then
+		msg.post("#sprite", "play_animation", {id = self.reload_animation})
+	end
+
+	if message_id == hash("start_idle_animation") then
+		msg.post("#sprite", "play_animation", {id = self.idle_animation})
+	end
+	
 	
 end
