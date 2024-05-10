@@ -6,8 +6,6 @@ function on_message(self, message_id, message, sender)
 		self.type = message.type
 		if self.type == "max_ammo" then
 			go.set("#sprite", "scale", vmath.vector3(2, 2, 1))
-		elseif self.type == "heal" or self.type == "damage" then
-			go.set(".", "rotation", vmath.quat_rotation_z(math.rad(45)))
 		end
 	elseif message_id == hash("set_value") then
 		self.value = message.value
