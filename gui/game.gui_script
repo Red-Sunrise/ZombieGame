@@ -1,0 +1,16 @@
+local state = require "scripts.state"
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("set_score") then
+		gui.set_text(gui.get_node("score"), state.score)
+	elseif message_id == hash("update_hp") then
+		gui.set_text(gui.get_node("current_hp"), message.current_hp)
+		gui.set_text(gui.get_node("max_hp"), message.max_hp)
+	elseif message_id == hash("update_ammo") then
+		gui.set_text(gui.get_node("current_ammo"), message.current_ammo)
+		gui.set_text(gui.get_node("max_ammo"), message.max_ammo)
+	elseif message_id == hash("game_over") then
+		msg.post("menu:/menu#loader", "start_main_menu")
+		msg.post("#", "disable")
+	end
+end
