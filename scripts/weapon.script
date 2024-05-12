@@ -1,6 +1,6 @@
 go.property("max_ammo", 30)
 go.property("reload_time", 1)
-go.property("fire_rate", 0.15) -- время между выстрелами
+go.property("fire_rate", 0.15)
 go.property("damage", 10)
 
 local state = require "scripts.state"
@@ -18,7 +18,6 @@ function update(self, dt)
 	if self.fire_timer >= self.fire_rate then
 		self.fire_timer = 0
 		if self.ammo > 0 and not state.player_is_moving then
-			-- стреляем, если есть патроны и не двигаемся
 			self.ammo = self.ammo - 1
 			
 			local bullet_position = go.get_position() + vmath.vector3(20, 18, 0)
@@ -27,7 +26,6 @@ function update(self, dt)
 			msg.post(bullet, "start_moving", { direction = vmath.vector3(1, 0, 0) })
 			msg.post(".", "start_attack_animation")
 		elseif self.ammo == 0 and not self.reloading then
-			-- начинаем перезарядку, если патронов нет
 			self.reloading = true
 			msg.post("/player", "start_reloading")
 			timer.delay(self.reload_time, false, function()
@@ -54,5 +52,3 @@ function on_message(self, message_id, message, sender)
 		msg.post("gui#game_hud", "update_ammo", {current_ammo = self.ammo, max_ammo = self.max_ammo})
 	end
 end
-
--- Если нажать движение в момент, когда количество патрон 1, то перезарядка будет происходить во время движения

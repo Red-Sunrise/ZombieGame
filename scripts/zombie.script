@@ -21,10 +21,21 @@ function update(self, dt)
 	if self.attacking then
 		self.attack_timer = self.attack_timer + dt
 		if self.attack_timer >= self.attack_speed then
-			msg.post("main:/player#player", "damage", { amount = self.damage })
+			msg.post("main:/player#player", "apply_damage", { amount = self.damage })
 			self.attack_timer = 0
 		end
 	end
+end
+
+local function zombie_death_processing(self)
+	self.is_alive = false
+	change_hp_label("")
+	msg.post(".", "stop_moving")
+	timer.delay(0.1, false, function() msg.post(".", "start_death_animation") end)
+	msg.post("#zombie_collision", "disable")
+	timer.delay(1, false, function() go.delete() end)
+	state.score = state.score + self.maxHP * self.damage
+	msg.post("gui#game_hud", "set_score")
 end
 
 function on_message(self, message_id, message, sender)
@@ -35,13 +46,7 @@ function on_message(self, message_id, message, sender)
 			change_hp_label(self.hp)
 			if self.hp <= 0 and self.is_alive then
 				self.is_alive = false
-				change_hp_label("")
-				msg.post(".", "stop_moving")
-				timer.delay(0.1, false, function() msg.post(".", "start_death_animation") end)
-				msg.post("#zombie_collision", "disable")
-				timer.delay(1, false, function() go.delete() end)
-				state.score = state.score + self.maxHP * self.damage
-				msg.post("gui#game_hud", "set_score")
+				zombie_death_processing(self)
 			end
 			go.delete(message.other_id)
 		end
@@ -49,6 +54,14 @@ function on_message(self, message_id, message, sender)
 			self.attacking = true
 			msg.post(".", "stop_moving")
 			msg.post(".", "start_attack_animation")
+		end
+	end
+
+	if message_id == hash("apply_damage") then
+		self.hp = self.hp - message.amount
+		change_hp_label(self.hp)
+		if self.hp <= 0 and self.is_alive then
+			zombie_death_processing(self)
 		end
 	end
 end
