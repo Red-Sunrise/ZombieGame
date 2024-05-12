@@ -66,6 +66,7 @@ embedded_components {
   "restitution: 0.5\n"
   "group: \"buff\"\n"
   "mask: \"player\"\n"
+  "mask: \"garbage_collector\"\n"
   "embedded_collision_shape {\n"
   "  shapes {\n"
   "    shape_type: TYPE_BOX\n"
