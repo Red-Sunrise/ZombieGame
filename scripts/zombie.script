@@ -58,8 +58,11 @@ function on_message(self, message_id, message, sender)
 	end
 
 	if message_id == hash("apply_damage") then
+		print(self.hp)
 		self.hp = self.hp - message.amount
+		print(self.hp)
 		change_hp_label(self.hp)
+		print("Зомби задело")
 		if self.hp <= 0 and self.is_alive then
 			zombie_death_processing(self)
 		end

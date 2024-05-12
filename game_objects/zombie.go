@@ -102,6 +102,8 @@ embedded_components {
   "group: \"zombie\"\n"
   "mask: \"bullet\"\n"
   "mask: \"player\"\n"
+  "mask: \"explosion\"\n"
+  "mask: \"garbage_collector\"\n"
   "embedded_collision_shape {\n"
   "  shapes {\n"
   "    shape_type: TYPE_BOX\n"

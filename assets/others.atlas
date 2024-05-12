@@ -1,8 +1,4 @@
 images {
-  image: "/assets/common/barrel/barrel_5.png"
-  sprite_trim_mode: SPRITE_TRIM_MODE_OFF
-}
-images {
   image: "/assets/buffs/heal_buff.png"
   sprite_trim_mode: SPRITE_TRIM_MODE_OFF
 }
@@ -19,7 +15,7 @@ images {
   sprite_trim_mode: SPRITE_TRIM_MODE_OFF
 }
 animations {
-  id: "barrel_explosion"
+  id: "explosion"
   images {
     image: "/assets/common/explosion/explosion_00000.png"
     sprite_trim_mode: SPRITE_TRIM_MODE_OFF
@@ -117,7 +113,7 @@ animations {
     sprite_trim_mode: SPRITE_TRIM_MODE_OFF
   }
   playback: PLAYBACK_ONCE_FORWARD
-  fps: 25
+  fps: 20
   flip_horizontal: 0
   flip_vertical: 0
 }
@@ -133,6 +129,45 @@ animations {
   }
   playback: PLAYBACK_LOOP_FORWARD
   fps: 4
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "barrel"
+  images {
+    image: "/assets/common/barrel/barrel_1.png"
+    sprite_trim_mode: SPRITE_TRIM_MODE_OFF
+  }
+  images {
+    image: "/assets/common/barrel/barrel_2.png"
+    sprite_trim_mode: SPRITE_TRIM_MODE_OFF
+  }
+  images {
+    image: "/assets/common/barrel/barrel_3.png"
+    sprite_trim_mode: SPRITE_TRIM_MODE_OFF
+  }
+  images {
+    image: "/assets/common/barrel/barrel_4.png"
+    sprite_trim_mode: SPRITE_TRIM_MODE_OFF
+  }
+  images {
+    image: "/assets/common/barrel/barrel_5.png"
+    sprite_trim_mode: SPRITE_TRIM_MODE_OFF
+  }
+  images {
+    image: "/assets/common/barrel/barrel_6.png"
+    sprite_trim_mode: SPRITE_TRIM_MODE_OFF
+  }
+  images {
+    image: "/assets/common/barrel/barrel_7.png"
+    sprite_trim_mode: SPRITE_TRIM_MODE_OFF
+  }
+  images {
+    image: "/assets/common/barrel/barrel_8.png"
+    sprite_trim_mode: SPRITE_TRIM_MODE_OFF
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 8
   flip_horizontal: 0
   flip_vertical: 0
 }

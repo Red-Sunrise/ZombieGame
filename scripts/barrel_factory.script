@@ -1,0 +1,16 @@
+function init(self)
+	self.barrel_timer = 0
+end
+
+function update(self, dt)
+	self.barrel_timer = self.barrel_timer + dt
+	if self.barrel_timer >= 5 then
+		self.barrel_timer = 0
+		math.randomseed(os.time())
+		local y = math.random(-150, 150)
+
+		barrel = factory.create("#barrel_factory",vmath.vector3(720, y, 0), nil, {})
+
+		msg.post(barrel, "start_moving", { direction = vmath.vector3(-1, 0, 0) })
+	end
+end

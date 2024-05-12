@@ -55,7 +55,7 @@ components {
 }
 components {
   id: "bullet_factory"
-  component: "/components/bullet_factory.factory"
+  component: "/factories/bullet_factory.factory"
   position {
     x: 0.0
     y: 0.0
@@ -138,6 +138,7 @@ embedded_components {
   "mask: \"wall\"\n"
   "mask: \"zombie\"\n"
   "mask: \"buff\"\n"
+  "mask: \"explosion\"\n"
   "embedded_collision_shape {\n"
   "  shapes {\n"
   "    shape_type: TYPE_BOX\n"
