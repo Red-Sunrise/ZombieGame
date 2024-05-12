@@ -1,3 +1,0 @@
-prototype: "/game_objects/buff.go"
-load_dynamically: false
-dynamic_prototype: false
