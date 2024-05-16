@@ -59,6 +59,7 @@ function on_message(self, message_id, message, sender)
 		elseif message.type == "max_ammo" then
 			msg.post(".", "max_ammo_up", { value = message.value })
 		elseif message.type == "heal" then
+			hearts_update()
 			local heal_value = math.floor(self.max_hp * message.value / 100)
 			if self.hp + heal_value > self.max_hp then
 				self.hp = self.max_hp
@@ -71,5 +72,12 @@ function on_message(self, message_id, message, sender)
 			self.hp = self.hp + math.floor(self.hp * message.value / 100)
 			msg.post("gui#game_hud", "update_hp", {current_hp = self.hp, max_hp = self.max_hp})
 		end
+	end
+end
+
+function hearts_update()
+	if state.hearts < 3 then
+		state.hearts = state.hearts + 1
+		msg.post("gui#game_hud", "update_hearts")
 	end
 end

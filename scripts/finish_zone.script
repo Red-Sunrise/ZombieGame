@@ -1,0 +1,13 @@
+local state = require "scripts.state"
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("trigger_response") then
+		if message.group == hash("zombie") and message.enter then
+			state.hearts = state.hearts - 1
+			msg.post("gui#game_hud", "update_hearts")
+			if state.hearts == 0 then
+				msg.post("gui#game_hud", "game_over")
+			end
+		end
+	end
+end
