@@ -22,4 +22,8 @@ function on_message(self, message_id, message, sender)
 	elseif message_id == hash("stop_moving") then
 		self.moving = false
 	end
+
+	if message_id == hash("set_velocity") then
+		self.velocity = message.velocity
+	end
 end
