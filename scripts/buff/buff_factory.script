@@ -1,4 +1,4 @@
-local buffs = require "scripts.buffs"
+local buffs = require "scripts.buff.buffs"
 
 function init(self)
 	timer.delay(5, true, function()

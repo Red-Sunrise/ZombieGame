@@ -20,7 +20,7 @@ components {
 }
 components {
   id: "zombie"
-  component: "/scripts/zombie.script"
+  component: "/scripts/zombie/zombie.script"
   position {
     x: 0.0
     y: 0.0

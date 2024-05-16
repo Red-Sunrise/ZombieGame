@@ -1,4 +1,4 @@
-local zombie_table = require("scripts.zombies")
+local zombie_table = require("scripts.zombie.zombies")
 
 go.property("min_hp", 50)
 go.property("max_hp", 150)

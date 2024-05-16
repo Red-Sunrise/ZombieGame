@@ -20,7 +20,7 @@ components {
 }
 components {
   id: "barrel"
-  component: "/scripts/barrel.script"
+  component: "/scripts/barrel/barrel.script"
   position {
     x: 0.0
     y: 0.0

@@ -20,7 +20,7 @@ components {
 }
 components {
   id: "buff"
-  component: "/scripts/buff.script"
+  component: "/scripts/buff/buff.script"
   position {
     x: 0.0
     y: 0.0
