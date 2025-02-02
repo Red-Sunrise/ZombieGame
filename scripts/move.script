@@ -5,11 +5,15 @@ function init(self)
 	self.direction = 0
 end
 
+local function move(self, dt)
+	local position = go.get_position()
+	position = position + self.direction * self.velocity * dt
+	go.set_position(position)
+end
+
 function update(self, dt)
 	if self.moving then
-		local position = go.get_position()
-		position = position + self.direction * self.velocity * dt
-		go.set_position(position)
+		move(self, dt)
 	end
 end
 

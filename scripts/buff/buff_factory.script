@@ -1,12 +1,6 @@
 local buffs = require "scripts.buff.buffs"
 
-function init(self)
-	timer.delay(5, true, function()
-		create_random_buff(self)
-	end)
-end
-
-function create_buff(self, buff_type)
+local function create_buff(self, buff_type)
 	math.randomseed(os.time())
 	local y = math.random(-150, 150)
 	
@@ -22,7 +16,7 @@ function create_buff(self, buff_type)
 	msg.post(buff, "start_moving", { direction = vmath.vector3(-1, 0, 0) })
 end
 
-function create_random_buff(self)
+local function create_random_buff(self)
 	local buff_types = {}
 	for buff_type in pairs(buffs.buffs) do
 		table.insert(buff_types, buff_type)
@@ -30,4 +24,10 @@ function create_random_buff(self)
 	local random_index = math.random(#buff_types)
 	local random_buff_type = buff_types[random_index]
 	create_buff(self, random_buff_type)
+end
+
+function init(self)
+	timer.delay(5, true, function()
+		create_random_buff(self)
+	end)
 end

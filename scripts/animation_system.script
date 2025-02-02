@@ -11,75 +11,28 @@ function init(self)
 	msg.post("#sprite", "play_animation", { id = self.idle_animation })
 end
 
+local function set_animation(self, animation_id, animation)
+	msg.post("#sprite", "play_animation", { id = animation_id })
+	self.current_animation = animation
+end
+
 function on_message(self, message_id, message, sender)
 	if message_id == hash("start_move_animation") then
 		if self.current_animation ~= "walk" then
-			msg.post("#sprite", "play_animation", { id = self.walk_animation })
-			self.current_animation = "walk"
+			set_animation(self, self.walk_animation, "walk")
 		end
 	elseif message_id == hash("stop_move_animation") then
 		if not self.is_attacking and self.current_animation ~= "idle" then
-			msg.post("#sprite", "play_animation", { id = self.idle_animation })
-			self.current_animation = "idle"
+			set_animation(self, self.idle_animation, "idle")
 		end
 	elseif message_id == hash("start_attack_animation") then
 		if self.current_animation ~= "attack" then
 			self.is_attacking = true
-			msg.post("#sprite", "play_animation", {id = self.attack_animation})
-			self.current_animation = "attack"
+			set_animation(self, self.attack_animation, "attack")
 		end
 	elseif message_id == hash("start_reload_animation") then
-		msg.post("#sprite", "play_animation", {id = self.reload_animation})
-		self.current_animation = "reload"
+		set_animation(self, self.reload_animation, "reload")
 	elseif message_id == hash("start_death_animation") then
-		msg.post("#sprite", "play_animation", {id = self.death_animation})
+		set_animation(self, self.death_animation, "death")
 	end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
--- 	if message_id == hash("start_attack_animation") then
--- 		self.is_attacking = true
--- 		msg.post("#sprite", "play_animation", {id = self.attack_animation})
--- 		self.current_animation = "attack"
--- 	elseif message_id == hash("stop_attack_animation") then
--- 		self.is_attacking = false
--- 	elseif message_id == hash("start_move_animation") then
--- 		if self.current_animation ~= "walk" then
--- 			msg.post("#sprite", "play_animation", { id = self.walk_animation })
--- 			self.current_animation = "walk"
--- 		end
--- 	elseif message_id == hash("stop_move_animation") then
--- 		if not self.is_attacking and self.current_animation ~= "idle" then
--- 			msg.post("#sprite", "play_animation", { id = self.idle_animation })
--- 			self.current_animation = "idle"
--- 		end
--- 	end
--- 
--- 	if message_id == hash("start_death_animation") then
--- 		msg.post("#sprite", "play_animation", {id = self.death_animation})
--- 	end
--- 
--- 	if message_id == hash("start_reload_animation") then
--- 		msg.post("#sprite", "play_animation", {id = self.reload_animation})
--- 	end
--- 
--- 	if message_id == hash("start_idle_animation") then
--- 		msg.post("#sprite", "play_animation", {id = self.idle_animation})
--- 	end
--- 	
--- 	
--- end

@@ -9,27 +9,7 @@ function init(self)
 	self.timer = math.random(3, 7)
 end
 
-function update(self, dt)
-	self.timer = self.timer - dt
-	if self.timer <= 0 then
-		self.timer = math.random(3, 7)
-		math.randomseed(os.time())
-
-		zombie_type = get_random_zombie_type()
-		local y = math.random(-150, 150)
-
-		local hp = zombie_table.zombies[zombie_type].hp
-		local damage = zombie_table.zombies[zombie_type].damage
-		local velocity = zombie_table.zombies[zombie_type].velocity
-
-		local zombie = factory.create("#zombie_factory", vmath.vector3(720, y, 0), nil, {hp = hp, damage = damage})
-
-		msg.post(zombie, "start_moving", { direction = vmath.vector3(-1, 0, 0) })
-		msg.post(zombie, "set_velocity", { velocity = velocity })
-	end
-end
-
-function get_random_zombie_type()
+local function get_random_zombie_type()
 	local zombie_types = {}
 	for zombie_type in pairs(zombie_table.zombies) do
 		table.insert(zombie_types, zombie_type)
@@ -37,4 +17,28 @@ function get_random_zombie_type()
 	local random_index = math.random(#zombie_types)
 	local random_zombie_type = zombie_types[random_index]
 	return random_zombie_type
+end
+
+local function spawn_random_zombie()
+	local zombie_type = get_random_zombie_type()
+	
+	local y = math.random(-150, 150)
+
+	local hp = zombie_table.zombies[zombie_type].hp
+	local damage = zombie_table.zombies[zombie_type].damage
+	local velocity = zombie_table.zombies[zombie_type].velocity
+
+	local zombie = factory.create("#zombie_factory", vmath.vector3(720, y, 0), nil, {hp = hp, damage = damage})
+	msg.post(zombie, "start_moving", { direction = vmath.vector3(-1, 0, 0) })
+	msg.post(zombie, "set_velocity", { velocity = velocity })
+end
+
+function update(self, dt)
+	self.timer = self.timer - dt
+	if self.timer <= 0 then
+		self.timer = math.random(3, 7)
+		math.randomseed(os.time())
+		
+		spawn_random_zombie()
+	end
 end

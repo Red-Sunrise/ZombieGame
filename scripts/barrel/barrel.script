@@ -1,7 +1,11 @@
+local function create_explosion()
+	factory.create("#explosion_factory", go.get_position())
+	go.delete()
+end
+
 function on_message(self, message_id, message, sender)
 	if message_id == hash("trigger_response") and message.group == hash("bullet") then
-		factory.create("#explosion_factory", go.get_position())
-		go.delete()
+		create_explosion()
 		go.delete(message.other_id)
 	end
 end

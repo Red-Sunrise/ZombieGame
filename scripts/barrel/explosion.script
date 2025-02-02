@@ -9,11 +9,15 @@ function init(self)
 	end)
 end
 
+local function apply_explosion_damage(self, object_id)
+	local distance = vmath.length(go.get_position() - go.get_position(object_id))
+	if distance <= self.explosion_radius then
+		msg.post(object_id, "apply_damage", { amount = self.damage })
+	end
+end
+
 function on_message(self, message_id, message, sender)
 	if message_id == hash("trigger_response") then
-		local distance = vmath.length(go.get_position() - go.get_position(message.other_id))
-		if distance <= self.explosion_radius then
-			msg.post(message.other_id, "apply_damage", { amount = self.damage })
-		end
+		apply_explosion_damage(self, message.other_id)
 	end
 end

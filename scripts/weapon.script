@@ -13,30 +13,37 @@ function init(self)
 	state.bullet_damage = self.damage
 end
 
+local function shoot(self)
+	self.ammo = self.ammo - 1
+	local bullet_position = go.get_position() + vmath.vector3(20, 18, 0)
+	local bullet = factory.create("#bullet_factory", bullet_position, nil, { bullet_damage = self.damage })
+	msg.post("gui#game_hud", "update_ammo", {current_ammo = self.ammo, max_ammo = self.max_ammo})
+	msg.post(bullet, "start_moving", { direction = vmath.vector3(1, 0, 0) })
+	msg.post(".", "start_attack_animation")
+end
+
+local function reload(self)
+	self.reloading = true
+	msg.post("/player", "start_reloading")
+	timer.delay(self.reload_time, false, function()
+		self.ammo = self.max_ammo
+		self.reloading = false
+		msg.post("/player", "stop_reloading")
+	end)
+end
+
 function update(self, dt)
 	self.fire_timer = self.fire_timer + dt
 	if self.fire_timer >= self.fire_rate then
 		self.fire_timer = 0
 		if self.ammo > 0 and not state.player_is_moving then
-			self.ammo = self.ammo - 1
-			
-			local bullet_position = go.get_position() + vmath.vector3(20, 18, 0)
-			local bullet = factory.create("#bullet_factory", bullet_position,nil,{ bullet_damage = self.damage })
-			msg.post("gui#game_hud", "update_ammo", {current_ammo = self.ammo, max_ammo = self.max_ammo})
-			msg.post(bullet, "start_moving", { direction = vmath.vector3(1, 0, 0) })
-			msg.post(".", "start_attack_animation")
+			shoot(self)
 		elseif self.ammo == 0 and not self.reloading then
-			self.reloading = true
-			msg.post("/player", "start_reloading")
-			timer.delay(self.reload_time, false, function()
-				self.ammo = self.max_ammo
-				self.reloading = false
-				msg.post("/player", "stop_reloading")
-			end)
+			reload(self)
 		end
 	end
 end
-
+	
 function on_message(self, message_id, message, sender)
 	if message_id == hash("damage_up") then
 		self.damage = self.damage + math.floor(self.damage * message.value / 100)
