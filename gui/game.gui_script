@@ -6,15 +6,23 @@ function init(self)
 	self.hearts = { gui.get_node("heart_1"), gui.get_node("heart_2"), gui.get_node("heart_3") }
 end
 
+local function pause(self)
+	msg.post("menu:/menu#game_proxy", "set_time_step", { factor=0 , mode=1 })
+	self.is_paused = true
+end
+
+local function unpause(self)
+	msg.post("menu:/menu#game_proxy", "set_time_step", { factor=1 , mode=1 })
+	self.is_paused = false
+end
+
 function on_input(self, action_id, action)
 	if action_id == hash("touch") and action.pressed then
 		if gui.pick_node(gui.get_node("pause_button"), action.x, action.y) then
 			if not self.is_paused then
-				msg.post("menu:/menu#game_proxy", "set_time_step", { factor=0 , mode=1 })
-				self.is_paused = true
+				pause(self)
 			else
-				msg.post("menu:/menu#game_proxy", "set_time_step", { factor=1 , mode=1 })
-				self.is_paused = false
+				unpause(self)
 			end
 		end
 	end
